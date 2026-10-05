@@ -1,0 +1,23 @@
+# Rubric: is this plan ready to post and build from?
+
+## Checks
+
+| Check | Evidence | Pass condition | Weight |
+|---|---|---|---|
+| Diagnosis follows the repro evidence | The plan's stated cause, read against the repro evidence's steps, artifact, control run, and Expected/Actual | Pass if the stated cause explains every behavior the repro evidence shows, including the control (what works and what fails), and the fix targets that cause rather than its symptom. Fail if the cause contradicts or ignores a shown artifact or control, if the plan only restates the symptom as the cause, or if it adopts a root cause from the thread (a commenter's or maintainer's claim) that the repro evidence does not support or even contradicts. A cause borrowed from the thread passes only when the repro evidence is consistent with it. | required |
+| One bounded change | The plan's scope statement (what is in, what is out) and its list of changes or files | Pass if the plan names one change a reviewer could review as a single pull request and says what it will not touch. Fail if it bundles unrelated work (extra refactors, cleanups, adjacent bugs, new features), leaves the boundary open ("and anything else I find"), or its change is larger than what the diagnosis requires. | required |
+| A stranger could start building | The plan's files/areas, approach, and order of work | Pass if the plan names the files or functions to change, and the concrete edit at each, specifically enough that someone who has not talked to the author could begin editing without guessing where or what. Fail if it says only "look into", "poke around", or "figure out where X lives", names no file or function, or depends on a fix site that cannot work as described given the repro evidence or the issue (for example a change in code the repro never touches, or one the maintainer has said is off the table). | required |
+| Test plan proves the fix observably | The plan's test plan, read against the repro evidence's steps, artifact, and Expected/Actual | Pass if it re-runs the repro steps (or a named test that fails before the fix) and states the specific output or behavior that will differ after the fix, so a before and after can be compared. Fail if it only says "run the test suite", "make sure nothing breaks", "works after the change", or names a check that would also pass without the fix. | required |
+| Unknowns stated, not dressed as certainty | The plan's stated risks, unknowns, and assumptions, and the confidence of its claims against what the repro evidence actually shows | Pass if every claim about cause or fix is either backed by the repro evidence or marked as unverified, and the plan names at least one real risk or open question about the approach where one exists (for example a behavior change, an unconfirmed fix site, or a maintainer's reservation). Fail if the plan asserts a cause, fix site, or effect that no evidence in the package backs as though it were established, or if it presents a fix as certain where the thread or repro shows it is contested or hard. | required |
+| Comment is consistent and thread-aware | The plan comment, read against the candidate plan, the thread highlights (maintainer signals), and the repo-facts block (bug-report template, contributing asks, AI policy) | Pass if the comment states the same diagnosis, scope, and test the plan does, responds to what a maintainer said in the thread when one said something relevant (a stated limit, a rejected direction, a hard-fix warning), and meets any stated repo requirement, including disclosing AI assistance when the policy requires it and writing in the author's own words when the policy requires it. Fail if the comment contradicts or oversells the plan, ignores a maintainer's relevant statement, promises a fix or a date instead of a plan, is boilerplate that fits any issue, or misses a stated repo requirement. A repo whose policy has no disclosure ask needs none. | required |
+| Plan quotes the repro evidence it relies on | The plan's diagnosis and test plan, checked for quoted or summarized repro facts | Pass if the plan quotes or cites the specific repro output, command, or control result its diagnosis and test plan rest on. | preferred |
+
+## Verdict rule
+
+Accept (ready to post and build from) only if every `required` check passes. Any
+`required` check graded `fail` holds the package. `unclear` on a required check
+counts as `fail`: a plan that cannot be verified from the package is not ready to
+build from. `preferred` checks never change the verdict. A single failed required
+check holds the package however strong the other checks are: strong diagnosis does
+not buy back an unbounded scope, and a polished comment does not buy back a wrong
+cause.
