@@ -69,7 +69,7 @@ tests/unit/test_tech_detector.py::TestTechDetector::test_build_directory_exclude
 ======================= 2 failed, 25 deselected in 0.19s =======================
 ```
 
-After (same three commands on branch `fix/57-skip-top-level-vendor-paths`, commit `d689861`):
+After (same three commands on branch `fix/57-skip-top-level-vendor-paths`, head commit `a40fe0a`):
 
 ```
 $ python3 - <<'PY'     # the issue's snippet, unchanged
